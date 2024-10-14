@@ -227,4 +227,5 @@ console.log(newCar1.startEngine("Tesla"));
 
 const newCar2 = new carConstruction("Audi", "A4", 2023)
 // console.log(typeof newCar2, newCar2);
-console.log(newCar2.startEngine("AlfaRomeo")); 
+console.log(newCar2.startEngine("AlfaRomeo"));
+console.log(typeof carConstruction); 
