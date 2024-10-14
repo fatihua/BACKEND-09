@@ -200,3 +200,31 @@ console.log(arrayValues);
 
 const arrayAll = Object.entries(Car);
 console.log(arrayAll);
+
+
+//Construction
+const constructionFunction = function(){
+    this.property="value"
+}
+
+const carConstruction = function(brand,model,year){
+    this.brand = brand,
+    this.model = model,
+    this.year = year
+
+    this.startEngine=function(param){
+        return (param)
+    }
+}
+
+
+// new keyword
+const newCar1 = new carConstruction("Volkswagen", "passat", 2024)
+// console.log(typeof newCar1, newCar1);
+
+newCar1.startEngine("Tesla")
+console.log(newCar1.startEngine("Tesla"));
+
+const newCar2 = new carConstruction("Audi", "A4", 2023)
+// console.log(typeof newCar2, newCar2);
+console.log(newCar2.startEngine("AlfaRomeo")); 
