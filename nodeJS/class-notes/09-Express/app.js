@@ -16,17 +16,19 @@ const express = require("express")
 const app=express() // express üzerinde server çalıştır
 
 //dotenv
-// const x = require('dotenv'
-  //  x.conig() //
+// const x = require('dotenv')
+  //  x.config() //
 
-  require('dotenv').config()
+//   require('dotenv').config()
 //   console.log(process.env);
-
+// const PORT=process.env.PORT
+// const HOST=process.env.HOST
 
 const PORT = process.env.PORT || 8000
 const HOST = process.env.HOST || '127.0.0.1'
 
 //req and res short form request and response
+// 
 // app.get('/', (req, res)=>{
     //1
     //res.write('hello')
@@ -41,14 +43,14 @@ const HOST = process.env.HOST || '127.0.0.1'
 
     //3
     // res.send({ // obje dönüşümünü yapar
-    //     message:'clarusway'   // objeyi ekrana basamaz
+    //     message:'clarusway'   // 
     // })
     // res.send('hello clarusway')
 // })
 
 // app.get('/', (req,res)=>{res.send('method GET')})
 // app.post('/', (req,res)=>{res.send('method POST')})
-// // app.put('/', (req,res)=>{res.send('method PUT')}) // put=patch
+ // app.put('/', (req,res)=>{res.send('method PUT')}) // put=patch
 // app.patch('/', (req,res)=>{res.send('method PATCH')}) // put=patch
 // app.delete('/', (req,res)=>{res.send('method DELETE')})
 
