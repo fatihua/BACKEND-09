@@ -114,6 +114,8 @@ app.get('/',(req,res)=>{
 //     next()
 // })
 
+
+/*
 const middlewarex= (req,res,next)=>{
     console.log('mid x');
     req.message1='message from mid x'
@@ -131,14 +133,60 @@ const middleware2= (req,res,next)=>{
     // next()
 }
 app.get('/',middleware1,middlewarex,middleware2)// sıralama önemli
+*/
 
-// app.get('/',(req,res)=>{
-//     res.send({
-//         message1:req.message1,
-//         message2:req.message2,
-//         message3:req.message3
-//     })
-// })
+/*
+const middleware1=(req,res,next)=>{
+    console.log('mid 1');
+    next()
+}
+const middleware2=(req,res,next)=>{
+    console.log('mid 2');
+    // res.send('test')
+    next()
+}
+
+app.get('/', (req,res,next)=>{
+    next()// sırasıyla app.use'dakilere uğruyor next ile, hepsi bittiğinde hala next varsa kendi next'ine geri geliyor ve kendinden sonrakileri yürütüyor.
+    res.send({
+        message:'get'
+    })
+})
+
+app.use(middleware1,middleware2)
+//app.use(middleware1)
+//app.use(middleware2)
+
+*/
+
+/*
+app.get('/', [middleware1, middleware2])//sadece get için
+app.use('/', [middleware1, middleware2])// app.all anlamında
+
+*/
+/*
+const middlewares=require('./middlewares/') // array olarak alma
+const {middleware1,middleware2,middleware3}=require('./middlewares/')//obj olarak alma
+
+
+app.get('/',middleware1, middleware2,middleware3,(req,res)=> {
+    res.send({
+        message:'get'
+    })
+})
+*/
+
+
+const middlewares=require('./middlewares/')
+// app.use(middlewares.middleware1)
+
+app.get('/',middlewares.middleware1,middlewares.middleware2,middlewares.middleware3, (req,res)=> {
+    res.send({
+        message:'get'
+    })
+})
+
+
 
 
 
