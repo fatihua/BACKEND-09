@@ -6,10 +6,11 @@
 const express = require("express");
 const app = express();
 
-require('express-async-error')
-
+require('express-async-errors')
 require("dotenv").config();
 const PORT = process.env.PORT || 8000;
+const DB_PATH = process.env.DB_PATH || './db.sqlite3';
+const DB_NAME = process.env.DB_NAME || './db.sqlite3';
 
 /* ------------------------------------------------------- */
 // Parse json data:
@@ -19,152 +20,108 @@ app.all('/', (req, res) => {
     res.send('WELCOME TO TODO API')
 })
 
-/*-----------------------------*/
+/* ------------------------------------------------------- */
+// Sequlize
+const { Sequelize, DataTypes } = require('sequelize')
 
-//sequalize
+// Creating new instance 
+const sequelize = new Sequelize(`${DB_NAME}:${DB_PATH}`) // define your db and the path
 
-const {Sequelize, DataTypes}=require('sequelize')
-
-//creating new instance
-const sequelize = new Sequelize('sqlite:./db.sqlite3')
-
-//* Creating Model */
-// sequelize.define('tableName', {fields})
-
+//* Creating Model
+// sequelize.define('modelName', { fields })
 const Todo = sequelize.define('todos', {
-    /*
-    id:{ // this attribute automatically created
-        type:DataTypes.INTEGER,
-        allowNull:false, // default = True
-        unique:true, // default = False
-        comment:'this is a comment',
-        primaryKey:true, // default = False
-        autoIncrement:true, // default =  False
-        field:'custom_name',
-        defaultValue:0  //default = null
 
-    } */
+    /*  id: { // this att. created auto
+            type: DataTypes.INTEGER,
+            allowNull: false,  // default : true
+            unique: true,  // default : false
+            comment: 'this is comment',
+            primaryKey: true,  // default : false
+            autoIncrement: true,  // default : false
+            field: 'custom_name',
+            defaultValue: 0  // default : null
+        } 
+    */
 
-    title:{
-        type:DataTypes.STRING,
-        allowNull:false, // default = True
+    title: {
+        type: DataTypes.STRING,
+        allowNull: false
     },
-    description:DataTypes.TEXT, // shorthand using
-    priority:{//-1:low, 0:normal, 1 :high
-        type:DataTypes.TINYINT,
-        allowNull:false,
-        defaultValue:0
-    },
-    isDone:{
-        type:DataTypes.BOOLEAN,
-        allowNull:false,
-        defaultValue:false,
-    }
 
-    //No need to define createAt and updateAt. automatically created
+    description: DataTypes.TEXT, // shorthand using
+
+    priority: { // -1 : low , 0: Normal , 1: High
+        type: DataTypes.TINYINT,
+        allowNull: false,
+        defaultValue: 0
+    },
+
+    isDone: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+    },
+
+    // No need to define createdAt and updatedAt. created auto
+
 })
 
-//SYNC işlemi - bu kodun kullanımı : bu konu bir kere yazacağız, sonra yoruma alacağız.
-// sequelize.sync()  // executing model 
-// sequelize.sync({force:true})  /// eski dosyaları silerek ...
-// sequelize.sync({alter:true})  //eski dosyaları silmeden
+// Sync - JUST EXECUTE ONCE 
+// sequelize.sync() // executing model 
+// sequelize.sync({ force: true }) // DROP TABLE & CREATE TABLE
+// sequelize.sync({ alter: true }) // TO BACKUP & DROP TABLE & CREATE TABLE FROM BACKUP
 
 
-
-//connecting to DB
+// COnnecting to DB
 sequelize.authenticate()
-.then(()=>console.log('* DB Connected *'))
-.catch(()=>console.log('* DB Not Connected *'))
+    .then(() => console.log('* DB Connected *'))
+    .catch(() => console.log('* DB Not Connected *'))
 
+/* ------------------------------------------------------- */
+// Routes and Controllers
 
-/*------------------------------------*/
-
-//Routes
 const router = express.Router()
 
+// Read Todo:
+router.get('/todo', async (req, res) => {
 
-// Read Data
-router.get('/todo', async(req, res) => {
+    // const result = await Todo.findAll()
+    const result = await Todo.findAndCountAll()
 
-    const result = await Todo.findAll()
-
-res.status(200).send({
-    error:false,
-    result
-    })
-})
-
-//Create Todo:
-router.post('/todo', async(req,res)=>{
-
-    // await Todo.create({
-    //     title:'Title 1',
-    //     description:'Description',
-    //     priority:0,
-    //     isDone:false
-    // })
-
-    const result = await Todo.create(req.body)
-
-    res.send({
-        error:false,
+    res.status(200).send({
+        error: false,
         result
     })
 })
 
-// Update Todo
-router.put('/todo/:id', async (req, res) => {
-    const { id } = req.params;
-    const [updated] = await Todo.update(req.body, {
-        where: { id }
-    });
+// Creeate Todo:
+router.post('/todo', async (req, res) => {
 
-    if (updated) {
-        const updatedTodo = await Todo.findByPk(id);
-        res.status(200).send({
-            error: false,
-            result: updatedTodo,
-        });
-    } else {
-        res.status(404).send({
-            error: true,
-            message: 'Todo not found',
-        });
-    }
-});
+    // await Todo.create({
+    //     title: 'Title 1',
+    //     description: 'Desription',
+    //     priority: 0,
+    //     isDone: false
+    // })
 
-// Delete Todo
-router.delete('/todo/:id', async (req, res) => {
-    const { id } = req.params;
-    const deleted = await Todo.destroy({
-        where: { id }
-    });
+    const result = await Todo.create(req.body)
 
-    if (deleted) {
-        res.status(204).send();
-    } else {
-        res.status(404).send({
-            error: true,
-            message: 'Todo not found',
-        });
-    }
-});
+    res.status(201).send({
+        error: false,
+        result
+    })
+})
+
+// delete - update
+
 app.use(router)
 
 
-
-
-
-
-
-
-
-
-
+/* ------------------------------------------------------- */
+// Error Handler
 const errorHandler = (err, req, res, next) => {
-    const errorStatusCode = res.errorStatusCode ?? 500
-    console.log('errorHandler worked.')
-    res.status(errorStatusCode).send({
+    const statusCode = res.errorStatusCode ?? 500
+    res.status(statusCode).send({
         error: true, // special data
         message: err.message, // error string message
         cause: err.cause, // error option cause
