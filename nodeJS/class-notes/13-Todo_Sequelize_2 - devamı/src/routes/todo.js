@@ -1,34 +1,36 @@
 "use strict";
 /* -------------------------------------------------------
     EXPRESSJS - TODO Project with Sequelize
-------------------------------------------------------- */
+/*------------------------------------------------------- */
 
-// Routes and Controllers
+// const express = require("express")
+// const todo = require('../controllers/todo')
 
-// const express = require("express") // zaten alt kısımdaki syntax ile bu işlemi yaptık
 const router = require("express").Router()
-// const Todo = require('../models/todo') // importuna gerek kalmadığı için kapattık
-const {list, create, read, update, delete:deleteTodo} = require('../controllers/todo')
+// Contorollers
+const { list, create, read, update, delete: deleteTodo } = require('../controllers/todo')
 
 
-/* 
+/*------------------------------------------------------- *
+
 // List Todo:
 router.get('/todo', list)
 
-//CRUD Operations
+// CRUD Operations -->
 
-// Create Todo:
+// Creeate Todo:
 router.post('/todo', create)
 
-//Read Todo
+// Read Todo
 router.get('/todo/:id', read)
 
-//Update Todo
-router.put('/todo/:id', update )
+// Updata Todo
+router.put('/todo/:id', update)
 
-//Delete Todo
+
+// Delete Todo
 router.delete('/todo/:id', deleteTodo)
-*/
+/*------------------------------------------------------- */
 
 router.route('/todo')
     .get(list)
@@ -36,8 +38,7 @@ router.route('/todo')
 
 router.route('/todo/:id')
     .get(read)
-    .put(update)    
+    .put(update)
     .delete(deleteTodo)
-
 
 module.exports = router

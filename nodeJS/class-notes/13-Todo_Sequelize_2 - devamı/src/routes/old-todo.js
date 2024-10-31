@@ -5,7 +5,7 @@
 
 // Routes and Controllers
 
-// const express = require("express") // zaten alt kısımdaki syntax ile bu işlemi yaptık
+// const express = require("express")
 const router = require("express").Router()
 const Todo = require('../models/todo')
 
@@ -21,9 +21,9 @@ router.get('/todo', async (req, res) => {
     })
 })
 
-//CRUD Operations
+// CRUD Operations -->
 
-// Create Todo:
+// Creeate Todo:
 router.post('/todo', async (req, res) => {
 
     // await Todo.create({
@@ -41,51 +41,50 @@ router.post('/todo', async (req, res) => {
     })
 })
 
-//Read Todo
+// Read Todo
+router.get('/todo/:id', async (req, res) => {
 
-router.get('/todo/:id', async(req,res)=>{
-
-    // const result = await Todo.findOne({
-    //     where: {id:req.params.id}
-    // })
+    // const result = await Todo.findOne({ where: { id: req.params.id } })
     const result = await Todo.findByPk(req.params.id)
+
 
     res.status(200).send({
         error: false,
         result
     })
+
 })
 
-//Update Todo
-router.put('/todo/:id', async(req,res)=>{
+// Updata Todo
+router.put('/todo/:id', async (req, res) => {
 
-//    const result = await Todo.update({...newData},{...filter})
-   const result = await Todo.update(req.body, {where:{id:req.params.id}})
+    // const result = await Todo.update({...newData},{...filter})
+    const result = await Todo.update(req.body, { where: { id: req.params.id } })
 
-   const isUpdated = result[0]
+    const isUpated = result[0]
 
-    res.status(isUpdated ? 202 : 404).send({
-        error: false,
-        message:isUpdated ? "Updated" : "Something went wrong!",
-        updatedData: isUpdated && await Todo.findByPk(req.params.id)
+    res.status(isUpated ? 202 : 404).send({
+        error: isUpated ? false : true,
+        message: isUpated ? "Updated" : "Something went wrong!",
+        updatedData: isUpated && await Todo.findByPk(req.params.id)
     })
 })
 
-//Delete Todo
 
-router.delete('/todo/:id', async(req,res)=>{
+// Delete Todo
 
-    const isDeleted = await Todo.destroy({where:{id:req.params.id}})
+router.delete('/todo/:id', async (req, res) => {
 
-    if(isDeleted){
+    const isDeleted = await Todo.destroy({ where: { id: req.params.id } })
+
+
+    if (isDeleted) {
         res.sendStatus(204)
-    }else{
+    } else {
         res.errorStatusCode = 404
         throw new Error('Can not deleted! or Maybe already deleted.')
     }
-    res.status(202).send({
-        error:isDeleted ? true : false,    
-    })
+
 })
 
 module.exports = router

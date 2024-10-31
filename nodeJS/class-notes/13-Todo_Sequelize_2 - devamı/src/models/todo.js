@@ -57,11 +57,10 @@ const Todo = sequelize.define('todos', {
 // sequelize.sync({ alter: true }) // TO BACKUP & DROP TABLE & CREATE TABLE FROM BACKUP
 
 
-// Connecting to DB
+// COnnecting to DB
 sequelize.authenticate()
     .then(() => console.log('* DB Connected *'))
     .catch(() => console.log('* DB Not Connected *'))
 
-/* ------------------------------------------------------- */
 
 module.exports = Todo
