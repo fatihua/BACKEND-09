@@ -21,6 +21,15 @@ router.route('/category/:categoryId')
 //.patch(blogCategory.update)
 .delete(blogCategory.delete)
 
+// URL : /blog/post
+router.route('/post')
+    .get(blogPost.list)
+    .post(blogPost.create)
 
+router.route('/post/:postId')
+    .get(blogPost.read)
+    .put(blogPost.update)
+    .patch(blogPost.update)
+    .delete(blogPost.delete)
 
 module.exports = router
