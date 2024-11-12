@@ -1,6 +1,6 @@
 "use strict";
 /* -------------------------------------------------------
-    EXPRESSJS - Personnel API
+    EXPRESS - Personnel API
 ------------------------------------------------------- */
 
 const router = require('express').Router()

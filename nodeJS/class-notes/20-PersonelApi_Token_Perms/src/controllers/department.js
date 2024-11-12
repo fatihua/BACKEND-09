@@ -12,8 +12,8 @@ module.exports = {
 
         res.status(200).send({
             error: false,
-            result,
             detail: await res.getModelListDetails(Department),
+            result,
         });
     },
 
@@ -26,7 +26,6 @@ module.exports = {
     },
 
     read: async (req, res) => {
-        console.log(req.params);
         const result = await Department.findOne({ _id: req.params.id });
 
         res.status(200).send({
@@ -63,14 +62,19 @@ module.exports = {
         });
     },
 
-    personnels :async(req,res)=>{
-        const Personnel = require('../models/personnel') 
-        // const result = await Personnel.find({departmentId:req.params.id}).populate('departmentId')
-        const result = await res.getModelList(Personnel,{departmentId:req.params.id}, 'departmentId') 
+    personnels: async (req, res) => {
+        const Personnel = require('../models/personnel')
+
+        // const result = await Personnel.find({ departmentId: req.params.id }).populate('departmentId')
+
+        const result = await res.getModelList(Personnel, { departmentId: req.params.id }, 'departmentId')
+
         res.status(202).send({
-            error:false,
+            error: false,
             result
         })
-    } 
+
+    }
+
 
 };

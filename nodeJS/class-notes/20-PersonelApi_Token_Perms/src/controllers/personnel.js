@@ -12,8 +12,8 @@ module.exports = {
 
         res.status(200).send({
             error: false,
-            result,
             detail: await res.getModelListDetails(Personnel),
+            result,
         });
     },
 
@@ -33,14 +33,6 @@ module.exports = {
             result,
         });
     },
-
-    //filter, update,options
-    // const options = { upsert: true };
-    // acknowledged: İşlemin MongoDB tarafından tanındığını gösterir.
-    // matchedCount: Filtre kriterleriyle eşleşen belge sayısını belirtir.
-    // modifiedCount: Güncellenen belge sayısını belirtir.
-    // upsertedId: Eğer upsert kullanıldıysa ve yeni bir belge oluşturulduysa, bu belgenin _id değeri burada yer alır.
-    // upsertedCount: upsert işlemi ile kaç belgenin oluşturulduğunu belirtir.
 
     update: async (req, res) => {
         const result = await Personnel.updateOne({ _id: req.params.id }, req.body, {

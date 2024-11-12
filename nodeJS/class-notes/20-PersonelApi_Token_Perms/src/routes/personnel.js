@@ -5,9 +5,9 @@
 const router = require('express').Router()
 /* ------------------------------------------------------- */
 
-const {list, create, read, update, delete:deleteDepartment,personnels} = require('../controllers/department')
+const { list, create, read, update, delete: deletePersonnel } = require('../controllers/personnel')
 
-//URL : /departments
+// URL : /personnels
 
 router.route('/')
     .get(list)
@@ -17,9 +17,7 @@ router.route('/:id')
     .get(read)
     .put(update)
     .patch(update)
-    .delete(deleteDepartment)
-router.get('/:id/personnels', personnels)
-
+    .delete(deletePersonnel)
 
 /* ------------------------------------------------------- */
 module.exports = router
