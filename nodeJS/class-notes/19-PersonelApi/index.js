@@ -23,6 +23,10 @@ const session = require('cookie-session');
 
 app.use(session({
     secret: process.env.SECRET_KEY,
+    // cookie:{
+    //     secure:true, //default:false
+    //     httpOnly:true //default:false
+    // }
 }))
 
 
@@ -40,6 +44,8 @@ app.all('/', (req, res) => {
 
     res.send({
         message: 'WELCOME TO PERSONNEL API',
+        isLogin:req.session.id ? true:false,
+        session:req.session
     })
 })
 
