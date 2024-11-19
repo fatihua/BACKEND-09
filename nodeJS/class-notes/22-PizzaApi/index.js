@@ -64,6 +64,12 @@ app.all('/', (req, res) => {
     })
 })
 
+//Users:
+app.use('/users', require('./src/routes/user'))
+//Auth
+app.use('/auth', require('./src/routes/auth'))
+//Tokens:
+app.use('/tokens', require('./src/routes/token'))
 /* ------------------------------------------------------- */
 
 // errorHandler:
