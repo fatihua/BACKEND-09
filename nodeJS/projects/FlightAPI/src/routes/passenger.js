@@ -2,3 +2,21 @@
 /* -------------------------------------------------------
     NODEJS EXPRESS | Flight API
 ------------------------------------------------------- */
+const router = require('express').Router()
+const passenger = require('../controllers/passenger')
+/* ------------------------------------------------------- */
+
+// URL: /users
+
+
+router.route('/').get(passenger.list).post(passenger.create)
+
+router.route('/:id')
+    .get(passenger.read)
+    .put(passenger.update)
+    .patch(passenger.update)
+    .delete(passenger.deletePassenger)
+
+
+/* ------------------------------------------------------- */
+module.exports = router
