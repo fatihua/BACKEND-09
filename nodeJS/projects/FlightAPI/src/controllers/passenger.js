@@ -4,6 +4,7 @@
 ------------------------------------------------------- */
 // Passenger Controller:
 
+
 const Passenger = require('../models/passenger')
 
 module.exports = {
@@ -23,7 +24,7 @@ module.exports = {
         */
 
         // const result = await Passenger.find()
-        const result = await res.getModelList(Passenger)
+        const result = await res.getModelList(Passenger,{},["_id","createdId"])
 
         res.status(200).send({
             error: false,
@@ -67,11 +68,11 @@ module.exports = {
             #swagger.summary = "Read Passenger"
         */
 
-        const result = await Passenger.find({ _id: req.params.createdId })
+        const result = await Passenger.findOne({ _id: req.params.id }).populate(["_id", "createdId"])
 
         res.status(200).send({
             error: false,
-            details: await res.getModelListDetails({ _id: req.params.createdId }),
+            // details: await res.getModelListDetails({ _id: req.params.createdId }),
             result
 
         })
