@@ -67,10 +67,11 @@ module.exports = {
             #swagger.summary = "Read Passenger"
         */
 
-        const result = await Passenger.findOne({ _id: req.params.createdId })
+        const result = await Passenger.find({ _id: req.params.createdId })
 
         res.status(200).send({
             error: false,
+            details: await res.getModelListDetails({ _id: req.params.createdId }),
             result
 
         })
