@@ -1,0 +1,14 @@
+FROM node:current-alpine3.21
+
+#.çalışma alanı
+WORKDIR /app
+
+# copy hello.js /app
+#dosyaları aktar
+
+COPY . .
+
+#komut çalıştır
+#CMD node hello.js
+
+CMD ["node", "hello.js"]

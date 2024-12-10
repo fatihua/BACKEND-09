@@ -76,4 +76,4 @@ const routes = ['./index.js']
 
 // RUN
 // swaggerAutogen('file address', 'routes', 'document')
-swaggerAutogen(outputFile, routes, documents) // swaggerAutgen create a json file for us
+swaggerAutogen(outputFile, routes, documents) // swaggerAutogen create a json file for us
