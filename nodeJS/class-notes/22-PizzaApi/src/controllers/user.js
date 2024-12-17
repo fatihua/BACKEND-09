@@ -62,14 +62,12 @@ module.exports = {
         })
     },
 
-
-
     update: async(req,res)=>{
 
            /*
             #swagger.tags = ["Users"]
             #swagger.summary = "Update User"
-      */
+           */
 
         const result = await User.updateOne({_id:req.params.id}, req.body, {runValidators:true})
 
@@ -83,7 +81,7 @@ module.exports = {
          /*
             #swagger.tags = ["Users"]
             #swagger.summary = "Delete User"
-      */
+         */
 
         const {deletedCount} = await User.deleteOne({_id:req.params.id})
 
