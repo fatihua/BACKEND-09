@@ -52,7 +52,7 @@ app.use(require('./src/middlewares/queryHandler'))
 app.all('/', (req, res) => {
     res.send({
         error: false,
-        message: 'Welcome to Blog_API',
+        message: 'Welcome to Stock Management API',
         documents: {
             swagger: '/documents/swagger',
             redoc: '/documents/redoc',
